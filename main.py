@@ -1,5 +1,8 @@
 import requests
 import json
+import nltk
+from nltk.tokenize import word_tokenize
+nltk.download('punkt')
 
 # Get all bills by last updated date
 limit = 3
@@ -12,19 +15,28 @@ json_formatted_str = json.dumps(obj, indent=4)
 print(json_formatted_str)
 
 # TOKENIZE TERMS & INDEX DOCUMENTS
+terms = []
+stopwords = ["for", "of", "the", ",", "or", "a", "to"]
 for i in range(len(obj["bills"])):
   title = obj["bills"][i]["title"]
   latestActionDate = obj["bills"][i]["latestAction"]["actionDate"]
+  tokenlist = word_tokenize(title)
+  for token in tokenlist:
+    if token not in terms and token not in stopwords:
+      terms.append(token)
   print(latestActionDate, title)
+print(terms)
+
 # Stopwords
 # Lemmatization AND / OR Stemming
-# Tokenization Inverted Index
+# Tokenization Inverted Index OR other method
 
 # WRITE KEY PERFORMANCE INDICATORS
 # Query Time
 # Index Time
 # Precision
-# Accuracy
+# Recall
+# F-Measure
 
 # WRITE CHARTS
 # Count of Keywords Monthly Bar Chart
