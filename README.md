@@ -1,4 +1,4 @@
-# polistack
+# Polistack
 
 Polistack is a web application that aims to match a person's policy interest with current public sentiment surrounding the policy. It provides a user-friendly interface to retrieve policy information from Congress.gov and relevant public reactions from Twitter. The app utilizes MongoDB as the backend database and incorporates indexing algorithms and stemming techniques for efficient data retrieval. The goal is to empower individuals to stay informed about governmental policy updates and understand public sentiment, enabling faster and more informed action.
 
