@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "/Users/I575981/.local/share/virtualenvs/Polistack-G4Kyqy_P/bin/python3",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
+}

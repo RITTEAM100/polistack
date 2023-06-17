@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bills</title>
+</head>
+<body>
+    <h1>Bills</h1>
+    <p>Here is the congress data:</p>
+    <ul>
+        {% for bill in congress_data %}
+        <li>{{ bill }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
