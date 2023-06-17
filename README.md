@@ -42,6 +42,7 @@ Before running the commands, ensure that you have the latest version of Python i
 * `python3 manage.py startapp app_name` - Start a new django app
 * `pip3 show django` - Check if django is installed and details are shown.
 * `pip3 install requests`
+* `pipenv install django-debug-toolbar`
 
 #### Note: `python3` is used for avoiding using the Mac pre-installed python version.
 
@@ -54,9 +55,13 @@ Make sure to execute these commands in the project directory to set up and run y
 * `control + l` - clear terminal window.
 * `command + b` - show/hide explorer panel.
 * `control + \` ` -  show/hide terminal
+* `command + p` - search box
 
 
 ## Appendix
 
 * https://code.visualstudio.com/docs/python/tutorial-django
 * https://www.youtube.com/watch?v=rHux0gMZ3Eg&ab_channel=ProgrammingwithMosh
+* https://django-debug-toolbar.readthedocs.io/en/latest/
+* https://code.visualstudio.com/
+* https://www.mongodb.com/try/download/shell
