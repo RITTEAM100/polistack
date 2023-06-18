@@ -17,16 +17,12 @@ Polistack is a web application that aims to match a person's policy interest wit
 + PYTHON / DJANGO
 + JAVASCRIPT (AJAX) / HTML / CSS
 
-## Configuration
-
-To configure your local development environment in VS Code, follow these steps:
-
-1. Open the `.vscode/settings.json` file.
-2. Locate the `"python.pythonPath"` property and update it with the path to your Python installation.
+## URLs
+* http://127.0.0.1:8000/polistackapp/congress/bills/
 
 ## Versions
 
-- Python/Django versions used: Check the [Pipfile](Pipfile) for the specific versions of Python and Django used in this project.
+- Python and Django versions used: Check the [Pipfile](Pipfile) for the specific versions of Python and Django used in this project.
 
 ## Commands References
 
@@ -76,3 +72,4 @@ Make sure to execute these commands in the project directory to set up and run y
 * https://github.com/mongodb-developer/django-pymongo
 * https://api.mongodb.com/python/2.2/faq.html?_ga=2.136644660.560181402.1687041417-351804012.1686568017&_gac=1.59901535.1686568021.CjwKCAjwhJukBhBPEiwAniIcNXKamAg1LK4X06scbwnCbUoSfPL4Qydc2LU9KugZ5PFyMAdt0mOcPxoCV2QQAvD_BwE
 * https://api.congress.gov/#/bill/bill_list_all
+* https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
