@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from .config import Config
+from .constants import *
 
 obj = Config()
 
 def congress_view(request):
-    limit = 10  # Set your desired limit
-    offset = 0  # Set your desired offset
+    page = int(request.GET.get('page', 1))
 
-    congress_data = obj.store_congress_data(limit, offset)
+    congress_data = obj.fetch_bills(page, ITEMS_PER_PAGE)
 
-    return render(request, 'bills.html', {'congress_data': congress_data})
-
+    return render(request, 'bills.html', {'congress_data': congress_data, "bills_per_page": ITEMS_PER_PAGE})

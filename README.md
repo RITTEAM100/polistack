@@ -46,6 +46,10 @@ Before running the commands, ensure that you have the latest version of Python i
 * `pip3 show django` - Check if django is installed and details are shown.
 * `pip3 install requests`
 * `pipenv install django-debug-toolbar`
+* `pip3 install pytz`
+* `python3 manage.py makemigrations polistackapp`
+* `python3 manage.py migrate`
+* `pip3 install pymongo==3.12.1`
 
 #### Note: `python3` is used for avoiding using the Mac pre-installed python version.
 
@@ -68,3 +72,7 @@ Make sure to execute these commands in the project directory to set up and run y
 * https://django-debug-toolbar.readthedocs.io/en/latest/
 * https://code.visualstudio.com/
 * https://www.mongodb.com/try/download/shell
+* https://www.mongodb.com/compatibility/mongodb-and-django
+* https://github.com/mongodb-developer/django-pymongo
+* https://api.mongodb.com/python/2.2/faq.html?_ga=2.136644660.560181402.1687041417-351804012.1686568017&_gac=1.59901535.1686568021.CjwKCAjwhJukBhBPEiwAniIcNXKamAg1LK4X06scbwnCbUoSfPL4Qydc2LU9KugZ5PFyMAdt0mOcPxoCV2QQAvD_BwE
+* https://api.congress.gov/#/bill/bill_list_all
