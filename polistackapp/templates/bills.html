@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Congress Bills</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .pagination button {
+            margin: 0 5px;
+        }
+        
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-container input[type=text] {
+            padding: 10px;
+            width: 300px;
+        }
+        
+        .search-container button {
+            padding: 10px 20px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var currentPage = parseInt("{{ request.GET.page|default:'1' }}");
+            var totalBills = "{{ congress_data.total_bills }}";
+            var billsPerPage = "{{ bills_per_page }}";
+            var totalPages = Math.ceil(totalBills / billsPerPage);
+            
+            // Disable previous button if on the first page
+            if (currentPage === 1) {
+                $("#prev-btn").prop("disabled", true);
+            }
+            
+            // Disable next button if on the last page
+            if (currentPage === totalPages) {
+                $("#next-btn").prop("disabled", true);
+            }
+            
+            // Calculate starting count for the current page
+            var startingCount = (currentPage - 1) * billsPerPage + 1;
+            
+            // Update count for each bill
+            $(".count-cell").each(function(index) {
+                $(this).text(startingCount + index);
+            });
+            
+            // Handle previous button click
+            $("#prev-btn").click(function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    window.location.href = "/polistackapp/congress/bills/?page=" + currentPage;
+                }
+            });
+            
+            // Handle next button click
+            $("#next-btn").click(function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    window.location.href = "/polistackapp/congress/bills/?page=" + currentPage;
+                }
+            });
+            
+            // Handle home button click
+            $("#home-btn").click(function() {
+                window.location.href = "/polistackapp/congress/bills/";
+            });
+            
+            // Handle search button click
+            $("#search-btn").click(function() {
+                var query = $("#search-input").val();
+                if (query) {
+                    window.location.href = "/polistackapp/congress/bills/?search=" + query;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Congress Bills</h1>
+    
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search by bill number or title">
+        <button id="search-btn">Search</button>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Count</th>
+                <th>Bill Number</th>
+                <th>Title</th>
+                <th>Latest Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in congress_data.bills %}
+            <tr>
+                <td class="count-cell">{{ startingCount }}</td>
+                <td>{{ bill.number }}</td>
+                <td>{{ bill.title }}</td>
+                <td>{{ bill.latestAction.text }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="pagination">
+        <button id="home-btn">Home</button>
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+    </div>
+</body>
+</html>
