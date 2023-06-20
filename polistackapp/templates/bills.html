@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Congress Bills</title>
+    <title>#Polistack</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            font-size: 12px;
             margin: 0;
             padding: 20px;
         }
         
         h1 {
-            text-align: center;
-            margin-bottom: 20px;
+            margin: 0px 20px;
+            font-size: 24px;
+            color: orangered;
+            display: inline;
         }
         
         table {
@@ -31,8 +34,9 @@
         
         button {
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: orangered;
             color: white;
             border: none;
             cursor: pointer;
@@ -60,6 +64,8 @@
         .search-container input[type=text] {
             padding: 10px;
             width: 300px;
+            border-radius: 40px;
+            border: 1px solid #888;
         }
         
         .search-container button {
@@ -124,12 +130,12 @@
     </script>
 </head>
 <body>
-    <h1>Congress Bills</h1>
-    
-    <div class="search-container">
+
+    <span class="search-container">
+        <h1>#Polistack</h1>
         <input type="text" id="search-input" placeholder="Search by bill number or title">
         <button id="search-btn">Search</button>
-    </div>
+    </span>
     
     <table>
         <thead>
