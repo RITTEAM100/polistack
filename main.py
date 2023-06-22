@@ -2,6 +2,7 @@ import requests
 import json
 import nltk
 from nltk.tokenize import word_tokenize
+
 nltk.download('punkt')
 
 # Get all bills by last updated date
@@ -26,6 +27,8 @@ for i in range(len(obj["bills"])):
       terms.append(token)
   print(latestActionDate, title)
 print(terms)
+
+
 
 # Stopwords
 # Lemmatization AND / OR Stemming
