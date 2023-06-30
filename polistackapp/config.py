@@ -111,18 +111,6 @@ class Config:
                      bill_detail_data = response.json().get('bill')
 
                      if bill_detail_data:
-                        #  # Extract the relevant information from the bill detail response
-                        #  bill_detail = {
-                        #      'number': bill_detail_data.get('number'),
-                        #      'title': bill_detail_data.get('title'),
-                        #      'introduced_date': bill_detail_data.get('introducedDate'),
-                        #      'latest_action_date': bill_detail_data.get('latestAction', {}).get('actionDate'),
-                        #      'latest_action_text': bill_detail_data.get('latestAction', {}).get('text'),
-                        #      'committee_reports': bill_detail_data.get('committeeReports', []),
-                        #      'cosponsors_count': bill_detail_data.get('cosponsors', {}).get('count'),
-                        #      # Extract any other relevant information you need
-                        #  }
-
                          # Save the bill detail in the 'bill_detail' collection
                          bill_detail_collection.insert_one(bill_detail_data)
 
