@@ -75,3 +75,10 @@ Make sure to execute these commands in the project directory to set up and run y
 * https://api.mongodb.com/python/2.2/faq.html?_ga=2.136644660.560181402.1687041417-351804012.1686568017&_gac=1.59901535.1686568021.CjwKCAjwhJukBhBPEiwAniIcNXKamAg1LK4X06scbwnCbUoSfPL4Qydc2LU9KugZ5PFyMAdt0mOcPxoCV2QQAvD_BwE
 * https://api.congress.gov/#/bill/bill_list_all
 * https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
+
+
+## Screenshots
+
+![Home Screen](screenshots/home_screen_bills.png)
+![Page 3](screenshots/pagination.png)
+![Bill Detail](screenshots/pagination.png)
