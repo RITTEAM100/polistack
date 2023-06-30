@@ -81,4 +81,4 @@ Make sure to execute these commands in the project directory to set up and run y
 
 ![Home Screen](screenshots/home_screen_bills.png)
 ![Page 3](screenshots/pagination.png)
-![Bill Detail](screenshots/pagination.png)
+![Bill Detail](screenshots/bill_detail.png)
