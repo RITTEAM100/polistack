@@ -18,8 +18,14 @@ class Config:
         # Access the 'bill' collection
         bill_collection = db_handle[BILLS_COLLECTION_NAME]
 
-        # Clear the existing data in the collection
+        # Access the 'bill_detail' collection
+        bill_detail_collection = db_handle[BILL_DETAIL_COLLECTION_NAME]
+
+        # Clear the existing data in the collection 'bill'
         bill_collection.delete_many({})
+
+        # Clear the existing data in the 'bill_detail' collection
+        bill_detail_collection.delete_many({})
 
         # Fetch data from the Congress API
         params = {"api_key": API_KEY, "limit": BILLS_COUNT}
@@ -67,4 +73,64 @@ class Config:
             'bills': bills,
             'total_bills': total_bills,
         }
+    
+    def fetch_bill_details(self, bill_id):
+         # Connect to the MongoDB database
+         db_handle, client = get_db_handle(DB_NAME)
+
+         # Access the 'bill' collection
+         bill_collection = db_handle[BILLS_COLLECTION_NAME]
+
+         # Access the 'bill_detail' collection
+         bill_detail_collection = db_handle[BILL_DETAIL_COLLECTION_NAME]
+
+         # Check if the bill details already exist in the 'bill_detail' collection
+         bill = bill_detail_collection.find_one({'number': bill_id})
+
+         if bill:
+             # If the bill details are already available in the 'bill_detail' collection, return them
+             return bill
+
+         else:
+             # If the bill details are not available, fetch them from the 'bill' collection
+             bill_data = bill_collection.find_one({'number': bill_id})
+
+             if bill_data:
+                 # Construct the API URL for the bill detail
+                 api_url = API_URL_GET_BILL_DETAIL.format(
+                     congress=bill_data['congress'],
+                     bill_type=bill_data['type'],
+                     bill_number=bill_data['number']
+                 )
+
+                 # Make an API call to fetch the bill detail
+                 url = f"{api_url}?api_key={API_KEY}"
+                 response = requests.get(url)
+
+                 if response.status_code == 200:
+                     bill_detail_data = response.json().get('bill')
+
+                     if bill_detail_data:
+                        #  # Extract the relevant information from the bill detail response
+                        #  bill_detail = {
+                        #      'number': bill_detail_data.get('number'),
+                        #      'title': bill_detail_data.get('title'),
+                        #      'introduced_date': bill_detail_data.get('introducedDate'),
+                        #      'latest_action_date': bill_detail_data.get('latestAction', {}).get('actionDate'),
+                        #      'latest_action_text': bill_detail_data.get('latestAction', {}).get('text'),
+                        #      'committee_reports': bill_detail_data.get('committeeReports', []),
+                        #      'cosponsors_count': bill_detail_data.get('cosponsors', {}).get('count'),
+                        #      # Extract any other relevant information you need
+                        #  }
+
+                         # Save the bill detail in the 'bill_detail' collection
+                         bill_detail_collection.insert_one(bill_detail_data)
+
+                         # Return the bill detail
+                         return bill_detail_data
+
+         # Close the MongoDB connection
+         client.close()
+
+
 

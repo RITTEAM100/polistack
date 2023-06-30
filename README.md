@@ -18,7 +18,9 @@ Polistack is a web application that aims to match a person's policy interest wit
 + JAVASCRIPT (AJAX) / HTML / CSS
 
 ## URLs
-* http://127.0.0.1:8000/polistackapp/congress/bills/
+
+- Home Screen - Bills: `http://127.0.0.1:8000/polistack/congress/bills/`
+- Specific Bill: `http://127.0.0.1:8000/polistack/congress/bill/4376/`
 
 ## Versions
 
