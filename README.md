@@ -19,8 +19,12 @@ Polistack is a web application that aims to match a person's policy interest wit
 
 ## URLs
 
+### LocalHost
 - Home Screen - Bills: `http://127.0.0.1:8000/polistack/congress/bills/`
 - Specific Bill: `http://127.0.0.1:8000/polistack/congress/bill/4376/`
+
+### Heroku Server
+- https://polistack-7faa79472287.herokuapp.com/polistack/congress/bills/
 
 ## Versions
 
