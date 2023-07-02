@@ -1,9 +1,6 @@
-from django.core.cache import cache
-from django.http import HttpResponse
 from .models import *
 import requests
 from .constants import *
-import pymongo
 from .utils import get_db_handle
 
 
