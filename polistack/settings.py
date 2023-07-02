@@ -25,9 +25,7 @@ SECRET_KEY = "django-insecure-1t^2uepp3xlgu^c%&nvp6w^_4p(@x_a7(qgnng2p#-p_^=p-gd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'polistack-7faa79472287.herokuapp.com'
-]
+ALLOWED_HOSTS = ["127.0.0.1", "polistack-7faa79472287.herokuapp.com"]
 
 
 # Application definition
@@ -83,9 +81,9 @@ WSGI_APPLICATION = "polistack.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': '',
-        'NAME': '',
+    "default": {
+        "ENGINE": "",
+        "NAME": "",
     }
 }
 
@@ -124,14 +122,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 import os
+
 # Configure static file storage for Heroku
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
 
 # Configure static file serving from the Heroku app
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
