@@ -19,7 +19,7 @@ def get_db_handle(db_name, host="localhost", port=27017):
     """
     # Create a new client and connect to the server
     client = MongoClient(
-        host=URI, server_api=ServerApi("1"), ssl_cert_reqs=ssl.CERT_NONE
+        host=URI, server_api=ServerApi("1"), tls=True, tlsAllowInvalidCertificates=True
     )
 
     # Send a ping to confirm a successful connection
