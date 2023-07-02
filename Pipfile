@@ -10,6 +10,7 @@ requests = "*"
 pytz = "*"
 pymongo = "3.12.1"
 django-bootstrap5 = "*"
+gunicorn = "*"
 
 [dev-packages]
 
