@@ -51,7 +51,7 @@ Before running the commands, ensure that you have the latest version of Python i
 * `pip3 install pytz`
 * `python3 manage.py makemigrations polistackapp`
 * `python3 manage.py migrate`
-* `pip3 install pymongo==3.12.1`
+* `pip3 install pymongo`
 * `pip install django-bootstrap5`
 * `pipenv clean`
 * `pipenv install`
