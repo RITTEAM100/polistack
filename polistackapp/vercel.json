@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "polistack/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "polistack/wsgi.py"
+      }
+    ]
+  }
