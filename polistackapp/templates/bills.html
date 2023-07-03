@@ -70,7 +70,7 @@
             $("#prev-btn").click(function () {
                 if (currentPage > 1) {
                     currentPage--;
-                    window.location.href = "/polistack/congress/bills/?page=" + currentPage;
+                    window.location.href = "/congress/bills/?page=" + currentPage;
                 }
             });
 
@@ -78,27 +78,27 @@
             $("#next-btn").click(function () {
                 if (currentPage < totalPages) {
                     currentPage++;
-                    window.location.href = "/polistack/congress/bills/?page=" + currentPage;
+                    window.location.href = "/congress/bills/?page=" + currentPage;
                 }
             });
 
             // Handle home button click
             $("#home-btn").click(function () {
-                window.location.href = "/polistack/congress/bills/";
+                window.location.href = "/congress/bills/";
             });
 
             // Handle search button click
             $("#search-btn").click(function () {
                 var query = $("#search-input").val();
                 if (query) {
-                    window.location.href = "/polistack/congress/bills/?search=" + query;
+                    window.location.href = "/congress/bills/?search=" + query;
                 }
             });
 
             // Handle bill click
             $(".bill-row").click(function () {
                 var billId = $(this).data("bill-id");
-                window.location.href = "/polistack/congress/bill/" + billId + "/";
+                window.location.href = "/congress/bill/" + billId + "/";
             });
         });
 

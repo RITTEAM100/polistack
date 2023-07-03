@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('polistack/', include('polistackapp.urls')),
+    path('', RedirectView.as_view(url='congress/bills/'), name='home'),
+    path('', include('polistackapp.urls')),
     path("__debug__/", include('debug_toolbar.urls'))
 ]

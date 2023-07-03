@@ -20,12 +20,12 @@ Polistack is a web application that aims to match a person's policy interest wit
 ## URLs
 
 ### LocalHost
-- Home Screen - Bills: `http://127.0.0.1:8000/polistack/congress/bills/`
-- Specific Bill: `http://127.0.0.1:8000/polistack/congress/bill/4376/`
+- Home Screen - Bills: `http://127.0.0.1:8000/congress/bills/`
+- Specific Bill: `http://127.0.0.1:8000/congress/bill/4376/`
 
 ### Server URLS
-- https://web-production-1d7e.up.railway.app/polistack/congress/bills/
-- https://polistack.vercel.app/polistack/congress/bills/
+- https://polistack.com/congress/bills/
+- https://polistack.vercel.app/congress/bills/
 
 ## Versions
 
