@@ -1,0 +1,1 @@
+web: gunicorn polistack.wsgi --log-file -

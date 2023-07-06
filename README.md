@@ -19,8 +19,13 @@ Polistack is a web application that aims to match a person's policy interest wit
 
 ## URLs
 
-- Home Screen - Bills: `http://127.0.0.1:8000/polistack/congress/bills/`
-- Specific Bill: `http://127.0.0.1:8000/polistack/congress/bill/4376/`
+### LocalHost
+- Home Screen - Bills: `http://127.0.0.1:8000/congress/bills/`
+- Specific Bill: `http://127.0.0.1:8000/congress/bill/4376/`
+
+### Server URLS
+- https://polistack.com/congress/bills/
+- https://polistack.vercel.app/congress/bills/
 
 ## Versions
 
@@ -47,7 +52,10 @@ Before running the commands, ensure that you have the latest version of Python i
 * `pip3 install pytz`
 * `python3 manage.py makemigrations polistackapp`
 * `python3 manage.py migrate`
-* `pip3 install pymongo==3.12.1`
+* `pip3 install pymongo`
+* `pip install django-bootstrap5`
+* `pipenv clean`
+* `pipenv install`
 
 #### Note: `python3` is used for avoiding using the Mac pre-installed python version.
 
@@ -75,6 +83,7 @@ Make sure to execute these commands in the project directory to set up and run y
 * https://api.mongodb.com/python/2.2/faq.html?_ga=2.136644660.560181402.1687041417-351804012.1686568017&_gac=1.59901535.1686568021.CjwKCAjwhJukBhBPEiwAniIcNXKamAg1LK4X06scbwnCbUoSfPL4Qydc2LU9KugZ5PFyMAdt0mOcPxoCV2QQAvD_BwE
 * https://api.congress.gov/#/bill/bill_list_all
 * https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
+* https://pypi.org/project/django-bootstrap5/
 
 
 ## Screenshots

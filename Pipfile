@@ -6,9 +6,11 @@ name = "pypi"
 [packages]
 django = "*"
 django-debug-toolbar = "*"
-requests="*"
-pytz="*"
-pymongo="3.12.1"
+requests = "*"
+pytz = "*"
+pymongo = "*"
+django-bootstrap5 = "*"
+gunicorn = "*"
 
 [dev-packages]
 
