@@ -6,8 +6,9 @@ obj = Config()
 
 def congress_view(request):
     page = int(request.GET.get('page', 1))
+    search_query = request.GET.get('q')
 
-    congress_data = obj.fetch_bills(page, ITEMS_PER_PAGE)
+    congress_data = obj.fetch_bills(search_query, page, ITEMS_PER_PAGE)
 
     return render(request, 'bills.html', {'congress_data': congress_data, "bills_per_page": ITEMS_PER_PAGE})
 
