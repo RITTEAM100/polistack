@@ -47,7 +47,8 @@ class Config:
 
         return data_from_api
     
-    def fetch_bills(self, page, items_per_page):
+    def  fetch_bills(self, search_query, page, items_per_page):
+
         # Connect to the MongoDB database
         db_handle, client = get_db_handle(DB_NAME)
 
@@ -57,8 +58,19 @@ class Config:
         # Calculate the skip value based on the current page and items per page
         skip = (page - 1) * items_per_page
 
-        # Fetch bills from the database with pagination
-        bills = list(bill_collection.find().skip(skip).limit(items_per_page))
+        # add query to search the collection's text index if a search query
+        # is passed
+        if search_query is not None and search_query.strip():
+            find_query = {
+                '$text': {'$search': search_query}
+            }
+        else:
+            find_query = {}
+
+        # Fetch bills from the database with pagination and text search (if any)
+        bills = list(
+            bill_collection.find(find_query).skip(skip).limit(items_per_page)
+        )
 
         # Calculate the total number of bills
         total_bills = bill_collection.count_documents({})
@@ -70,7 +82,8 @@ class Config:
             'bills': bills,
             'total_bills': total_bills,
         }
-    
+
+
     def fetch_bill_details(self, bill_id):
          # Connect to the MongoDB database
          db_handle, client = get_db_handle(DB_NAME)
