@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
     {% load django_bootstrap5 %}
     {% bootstrap_css %}
     <title>#Polistack - Bill Detail</title>
@@ -14,122 +14,161 @@
         .logo {
             font-size: 30px;
             color: orangered;
-        }
-        .card-header {
-            background-color: #f8f9fa;
-            border-bottom: none;
+            text-align: center;
+         }
+        .bill-number {
+            text-align: center;
+            margin-bottom: 5px;
         }
         .card-title {
-            margin-bottom: 0;
+            text-align: center;
+            width: 60%;
+            font-family: Baskerville;
+            margin: auto;
+            margin-bottom: 20px;
+            margin-top: 0px;
         }
-        .back-link {
-            margin-top: 20px;
+        .btn-primary {
+            background-color: orangered;
+            border: 1px solid #c93600;
+            color: #fff;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1 class="logo">#Polistack - Bill Detail</h1>
-        {% if bill %}
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h2 class="card-title">Bill Details</h2>
-                </div>
-                <div class="card-body">
-                    {% if bill.number %}
-                        <p><strong>Bill Number:</strong> {{ bill.number }}</p>
-                    {% endif %}
-                    {% if bill.title %}
-                        <p><strong>Title:</strong> {{ bill.title }}</p>
-                    {% endif %}
-                    {% if bill.introducedDate %}
-                        <p><strong>Introduced Date:</strong> {{ bill.introducedDate }}</p>
-                    {% endif %}
-                    {% if bill.latestAction %}
-                        <p><strong>Latest Action Date:</strong> {{ bill.latestAction.actionDate }}</p>
-                        <p><strong>Latest Action:</strong> {{ bill.latestAction.text }}</p>
-                    {% endif %}
-                    {% if bill.committeeReports %}
-                        <p><strong>Committee Reports:</strong></p>
-                        <ul>
-                            {% for report in bill.committeeReports %}
-                                <li><a href="{{ report.url }}">{{ report.citation }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% if bill.cosponsors %}
-                        <p><strong>Cosponsors Count:</strong> {{ bill.cosponsors.count }}</p>
-                    {% endif %}
-                    {% if bill.actions %}
-                        <p><strong>Actions Count:</strong> {{ bill.actions.count }}</p>
-                        <p><a href="{{ bill.actions.url }}" class="btn btn-primary">View Actions</a></p>
-                    {% endif %}
-                    {% if bill.amendments %}
-                        <p><strong>Amendments Count:</strong> {{ bill.amendments.count }}</p>
-                        <p><a href="{{ bill.amendments.url }}" class="btn btn-primary">View Amendments</a></p>
-                    {% endif %}
-                    {% if bill.cboCostEstimates %}
-                        <p><strong>CBO Cost Estimates:</strong></p>
-                        <ul>
-                            {% for estimate in bill.cboCostEstimates %}
-                                <li><a href="{{ estimate.url }}">{{ estimate.title }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% if bill.committees %}
-                        <p><strong>Committees Count:</strong> {{ bill.committees.count }}</p>
-                        <p><a href="{{ bill.committees.url }}" class="btn btn-primary">View Committees</a></p>
-                    {% endif %}
-                    {% if bill.constitutionalAuthorityStatementText %}
-                        <p><strong>Constitutional Authority Statement:</strong></p>
-                        <pre>{{ bill.constitutionalAuthorityStatementText }}</pre>
-                    {% endif %}
-                    {% if bill.laws %}
-                        <p><strong>Laws:</strong></p>
-                        <ul>
-                            {% for law in bill.laws %}
-                                <li>{{ law.type }}: {{ law.number }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% if bill.originChamber %}
-                        <p><strong>Origin Chamber:</strong> {{ bill.originChamber }}</p>
-                    {% endif %}
-                    {% if bill.policyArea %}
-                        <p><strong>Policy Area:</strong> {{ bill.policyArea.name }}</p>
-                    {% endif %}
-                    {% if bill.relatedBills %}
-                        <p><strong>Related Bills Count:</strong> {{ bill.relatedBills.count }}</p>
-                        <p><a href="{{ bill.relatedBills.url }}" class="btn btn-primary">View Related Bills</a></p>
-                    {% endif %}
-                    {% if bill.sponsors %}
-                        <p><strong>Sponsors:</strong></p>
-                        <ul>
-                            {% for sponsor in bill.sponsors %}
-                                <li><a href="{{ sponsor.url }}">{{ sponsor.fullName }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% if bill.subjects %}
-                        <p><strong>Subjects Count:</strong> {{ bill.subjects.count }}</p>
-                        <p><a href="{{ bill.subjects.url }}" class="btn btn-primary">View Subjects</a></p>
-                    {% endif %}
-                    {% if bill.summaries %}
-                        <p><strong>Summaries Count:</strong> {{ bill.summaries.count }}</p>
-                        <p><a href="{{ bill.summaries.url }}" class="btn btn-primary">View Summaries</a></p>
-                    {% endif %}
-                    {% if bill.textVersions %}
-                        <p><strong>Text Versions Count:</strong> {{ bill.textVersions.count }}</p>
-                        <p><a href="{{ bill.textVersions.url }}" class="btn btn-primary">View Text Versions</a></p>
-                    {% endif %}
-                </div>
+        .btn-primary:hover {
+            background-color: #ff7300;
+            border: 1px solid #c93600;
+        }
+        .btn-primary:active {
+            background-color: #c93600 !important;
+            border: 1px solid #c93600 !important;
+        }
+      </style>
+   </head>
+   <body>
+      <div class="container">
+         <div class="row">
+            <div class="col-3">
+               <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary back-link" style="padding: 5px 50px"><</a>
             </div>
-        {% else %}
-            <div class="alert alert-danger" role="alert">
-                Bill not found.
+            <div class="col-6">
+               <h1 class="logo">#Polistack</h1>
             </div>
-        {% endif %}
-        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary back-link">Back to Bills</a>
-    </div>
-</body>
+            <div class="col-3"></div>
+         </div>
+         <div class="row">
+            <div class="col-12">
+               <div class="card-header">
+                  {% if bill.number %}
+                  <p class="bill-number">#{{ bill.number }}</p>
+                  {% endif %}
+                  {% if bill.title %}
+                  <h2 class="card-title">{{ bill.title }}</h2>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+         {% if bill %}
+         <div class="row">
+            <div class="col-2 text-muted">
+               {% if bill.policyArea %}
+               <label><strong>Policy Area:</strong><p class="count">{{ bill.policyArea.name }}</p></label>
+               {% endif %}
+               {% if bill.introducedDate %}
+               <p><strong>Introduced Date:</strong> {{ bill.introducedDate }}</p>
+               {% endif %}
+               {% if bill.latestAction %}
+               <p><strong>Latest Action Date:</strong> {{ bill.latestAction.actionDate }}</p>
+               <p><strong>Latest Action:</strong> {{ bill.latestAction.text }}</p>
+               {% endif %}
+               {% if bill.actions %}
+               <label><strong>Actions Count:</strong><p class="count">{{ bill.actions.count }}</p></label>
+               <p><a href="{{ bill.actions.url }}" class="btn btn-secondary btn-sm">View Actions</a></p>
+               {% endif %}
+               {% if bill.amendments %}
+               <label><strong>Amendments Count:</strong><p class="count">{{ bill.amendments.count }}</p></label>
+               <p><a href="{{ bill.amendments.url }}" class="btn btn-sm btn-secondary">View Amendments</a></p>
+               {% endif %}
+            </div>
+            <div class="col-7">
+               <div class="card mb-3">
+                  <div class="card-body">
+                     {% if bill.originChamber %}
+                      <label><strong>Origin Chamber:</strong><p class="count">{{ bill.originChamber }}</p></label>
+                     {% endif %}
+                     {% if bill.committeeReports %}
+                     <p><strong>Committee Reports:</strong></p>
+                     <ul>
+                        {% for report in bill.committeeReports %}
+                        <li><a href="{{ report.url }}">{{ report.citation }}</a></li>
+                        {% endfor %}
+                     </ul>
+                     {% endif %}
+                     {% if bill.constitutionalAuthorityStatementText %}
+                     <p><strong>Constitutional Authority Statement:</strong></p>
+                     <pre>{{ bill.constitutionalAuthorityStatementText }}</pre>
+                     {% endif %}
+                     {% if bill.laws %}
+                     <p><strong>Laws:</strong></p>
+                     <ul>
+                        {% for law in bill.laws %}
+                        <li>{{ law.type }}: {{ law.number }}</li>
+                        {% endfor %}
+                     </ul>
+                     {% endif %}
+                     {% if bill.relatedBills %}
+                     <p><strong>Related Bills Count:</strong> {{ bill.relatedBills.count }}</p>
+                     <p><a href="{{ bill.relatedBills.url }}" class="btn btn-sm btn-secondary">View Related Bills</a></p>
+                     {% endif %}
+                     {% if bill.subjects %}
+                     <p><strong>Subjects Count:</strong> {{ bill.subjects.count }}</p>
+                     <p><a href="{{ bill.subjects.url }}" class="btn btn-sm btn-secondary">View Subjects</a></p>
+                     {% endif %}
+                     {% if bill.summaries %}
+                     <p><strong>Summaries Count:</strong> {{ bill.summaries.count }}</p>
+                     <p><a href="{{ bill.summaries.url }}" class="btn btn-sm btn-secondary">View Summaries</a></p>
+                     {% endif %}
+                     {% if bill.textVersions %}
+                     <p><strong>Text Versions Count:</strong> {{ bill.textVersions.count }}</p>
+                     <p><a href="{{ bill.textVersions.url }}" class="btn btn-sm btn-secondary">View Text Versions</a></p>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+            <div class="col-3">
+               <div class="card" style="width: 100%; ">
+                  <div class="card-body" style="min-height: 300px;">
+                     {% if bill.sponsors %}
+                     <p><strong>Sponsors:</strong></p>
+                     <ul>
+                        {% for sponsor in bill.sponsors %}
+                        <li><a href="{{ sponsor.url }}">{{ sponsor.fullName }}</a></li>
+                        {% endfor %}
+                     </ul>
+                     {% endif %}
+                     {% if bill.cosponsors %}
+                     <label><strong>Cosponsors Count:</strong><p class="count">{{ bill.cosponsors.count }}</p></label>
+                     {% endif %}
+                     {% if bill.committees %}
+                     <br>
+                     <label><strong>Committees Count:</strong><p class="count">{{ bill.committees.count }}</p></label>
+                     <p><a href="{{ bill.committees.url }}" class="btn btn-sm btn-secondary">View Committees</a></p>
+                     {% endif %}
+                     {% if bill.cboCostEstimates %}
+                     <p><strong>CBO Cost Estimates:</strong></p>
+                     <ul>
+                        {% for estimate in bill.cboCostEstimates %}
+                        <li><a href="{{ estimate.url }}">{{ estimate.title }}</a></li>
+                        {% endfor %}
+                     </ul>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% else %}
+         <div class="alert alert-danger" role="alert">
+            Bill not found.
+         </div>
+         {% endif %}
+      </div>
+   </body>
 </html>

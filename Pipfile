@@ -8,7 +8,7 @@ django = "*"
 django-debug-toolbar = "*"
 requests = "*"
 pytz = "*"
-pymongo = "3.12.1"
+pymongo = "*"
 django-bootstrap5 = "*"
 gunicorn = "*"
 

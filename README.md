@@ -20,11 +20,12 @@ Polistack is a web application that aims to match a person's policy interest wit
 ## URLs
 
 ### LocalHost
-- Home Screen - Bills: `http://127.0.0.1:8000/polistack/congress/bills/`
-- Specific Bill: `http://127.0.0.1:8000/polistack/congress/bill/4376/`
+- Home Screen - Bills: `http://127.0.0.1:8000/congress/bills/`
+- Specific Bill: `http://127.0.0.1:8000/congress/bill/4376/`
 
-### Heroku Server
-- https://polistack-7faa79472287.herokuapp.com/polistack/congress/bills/
+### Server URLS
+- https://polistack.com/congress/bills/
+- https://polistack.vercel.app/congress/bills/
 
 ## Versions
 
@@ -51,7 +52,7 @@ Before running the commands, ensure that you have the latest version of Python i
 * `pip3 install pytz`
 * `python3 manage.py makemigrations polistackapp`
 * `python3 manage.py migrate`
-* `pip3 install pymongo==3.12.1`
+* `pip3 install pymongo`
 * `pip install django-bootstrap5`
 * `pipenv clean`
 * `pipenv install`
