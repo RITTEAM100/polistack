@@ -12,41 +12,52 @@
             margin: 0;
             padding: 20px;
         }
+
         .logo {
             font-size: 30px;
-        color: orangered;
+            color: orangered;
+            cursor: pointer;
         }
+
         .btn-primary {
             background: orangered;
             border: 1px solid #e73b00;
         }
+
         .btn-primary:hover {
             background: #ff7440;
             border: 1px solid #e73b00;
-         }
+        }
+
         .btn-primary:active {
             background-color: #c93600 !important;
             border: 1px solid #c93600 !important;
         }
+
         button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
         }
+
         .pagination button {
             margin: 0 5px;
         }
+
         .search-container {
             margin-bottom: 10px;
         }
+
         .bill-row {
-            vertical-align: middle
+            vertical-align: middle;
         }
+
         .title-col {
             cursor: pointer;
             color: #2c6b6e !important;
             font-family: 'Baskerville';
             font-size: 17px;
         }
+
         .title-col:hover {
             color: #105454 !important;
             text-decoration: underline;
@@ -61,16 +72,17 @@
             }
 
             var totalBills = "{{ congress_data.total_bills }}";
-            var billsPerPage = "{{ bills_per_page }}";
+            var billsPerPage = parseInt("{{ bills_per_page }}");
             var totalPages = Math.ceil(totalBills / billsPerPage);
+            var searchQuery = "{{ request.GET.q|default:'' }}";
 
-            // Disable previous button if on the first page
-            if (currentPage === 1) {
+            // Disable previous button if on the first page or search result is empty
+            if (currentPage === 1 || totalBills === "0") {
                 $("#prev-btn").prop("disabled", true);
             }
 
-            // Disable next button if on the last page
-            if (currentPage === totalPages) {
+            // Disable next button if on the last page or search result is empty
+            if (currentPage === totalPages || totalBills === "0") {
                 $("#next-btn").prop("disabled", true);
             }
 
@@ -86,20 +98,28 @@
             $("#prev-btn").click(function () {
                 if (currentPage > 1) {
                     currentPage--;
-                    window.location.href = "/congress/bills/?page=" + currentPage;
+                    var url = "/congress/bills/?page=" + currentPage;
+                    if (searchQuery) {
+                        url += "&q=" + searchQuery;
+                    }
+                    window.location.href = url;
                 }
             });
 
             // Handle next button click
             $("#next-btn").click(function () {
-                if (currentPage < totalPages) {
+                if (currentPage < totalPages && totalBills !== "0") {
                     currentPage++;
-                    window.location.href = "/congress/bills/?page=" + currentPage;
+                    var url = "/congress/bills/?page=" + currentPage;
+                    if (searchQuery) {
+                        url += "&q=" + searchQuery;
+                    }
+                    window.location.href = url;
                 }
             });
 
             // Handle home button click
-            $("#home-btn").click(function () {
+            $("#home-btn, .logo").click(function () {
                 window.location.href = "/congress/bills/";
             });
 
@@ -107,17 +127,31 @@
             $("#search-btn").click(function () {
                 var query = $("#search-input").val();
                 if (query) {
-                    window.location.href = "/congress/bills/?q=" + query;
+                    var url = "/congress/bills/?q=" + query;
+                    window.location.href = url;
                 }
             });
 
+            // Update search input value
+            $("#search-input").val(searchQuery);
+
+            // Enable or disable pagination buttons based on search result count
+            if (totalBills === "0") {
+                $("#prev-btn").prop("disabled", true);
+                $("#next-btn").prop("disabled", true);
+            }
+
+            // Enable or disable next button based on the actual number of search results
+            if (totalBills <= billsPerPage) {
+                $("#next-btn").prop("disabled", true);
+            }
+
             // Handle bill click
-            $(".bill-row").click(function () {
-                var billId = $(this).data("bill-id");
+            $(".title-col").click(function () {
+                var billId = $(this).closest("tr").data("bill-id");
                 window.location.href = "/congress/bill/" + billId + "/";
             });
         });
-
     </script>
 </head>
 
@@ -127,9 +161,12 @@
             <div class="col-2 text-end align-middle">
                 <h1 class="logo">#Polistack</h1>
             </div>
-            <div class="col-8 align-middle"><input type="text" id="search-input" class="form-control"
-                    placeholder="Search by bill number or title"></div>
-            <div class="col-2 text-start"><button id="search-btn" class="btn btn-primary">Search</button></div>
+            <div class="col-8 align-middle">
+                <input type="text" id="search-input" class="form-control" placeholder="Search by bill number or title">
+            </div>
+            <div class="col-2 text-start">
+                <button id="search-btn" class="btn btn-primary">Search</button>
+            </div>
         </div>
     </div>
     <div class="container-fluid">
@@ -150,7 +187,9 @@
                             <td class="count-cell">{{ startingCount }}</td>
                             <td>{{ bill.number }}</td>
                             <td class="title-col">{{ bill.title }}</td>
-                            <td><small class="text-muted">{{ bill.latestAction.text }}</small></td>
+                            <td>
+                                <small class="text-muted">{{ bill.latestAction.text }}</small>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
