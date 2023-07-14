@@ -61,7 +61,7 @@ class Config:
         if search_query is not None and search_query.strip():
             find_query = {"$text": {"$search": search_query, "$caseSensitive": False}}
             projection = {"score": {"$meta": "textScore"}}
-            sort = [("score", {"$meta": "textScore"})]
+            sort = [("score", {"$meta": "textScore"})] 
         else:
             find_query = {}
             projection = {}
