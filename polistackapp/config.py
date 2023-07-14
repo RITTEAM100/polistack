@@ -57,7 +57,7 @@ class Config:
         # Calculate the skip value based on the current page and items per page
         skip = (page - 1) * items_per_page
 
-        # Add a search query to the find query if a search query is passed
+        # Add text search if search_query is provided and is not empty string or None
         if search_query is not None and search_query.strip():
             find_query = {"$text": {"$search": search_query, "$caseSensitive": False}}
             projection = {"score": {"$meta": "textScore"}}
