@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     {% load django_bootstrap5 %}
     {% bootstrap_css %}
@@ -11,41 +12,52 @@
             margin: 0;
             padding: 20px;
         }
+
         .logo {
             font-size: 30px;
             color: orangered;
+            cursor: pointer;
         }
+
         .btn-primary {
             background: orangered;
             border: 1px solid #e73b00;
         }
+
         .btn-primary:hover {
             background: #ff7440;
             border: 1px solid #e73b00;
         }
+
         .btn-primary:active {
             background-color: #c93600 !important;
             border: 1px solid #c93600 !important;
         }
+
         button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
         }
+
         .pagination button {
             margin: 0 5px;
         }
+
         .search-container {
             margin-bottom: 10px;
         }
+
         .bill-row {
             vertical-align: middle;
         }
+
         .title-col {
             cursor: pointer;
             color: #2c6b6e !important;
             font-family: 'Baskerville';
             font-size: 17px;
         }
+
         .title-col:hover {
             color: #105454 !important;
             text-decoration: underline;
@@ -63,8 +75,6 @@
             var billsPerPage = parseInt("{{ bills_per_page }}");
             var totalPages = Math.ceil(totalBills / billsPerPage);
             var searchQuery = "{{ request.GET.q|default:'' }}";
-
-            console.log("Total Bills: " + totalBills); // Debug statement
 
             // Disable previous button if on the first page or search result is empty
             if (currentPage === 1 || totalBills === "0") {
@@ -109,7 +119,7 @@
             });
 
             // Handle home button click
-            $("#home-btn").click(function () {
+            $("#home-btn, .logo").click(function () {
                 window.location.href = "/congress/bills/";
             });
 
@@ -137,13 +147,14 @@
             }
 
             // Handle bill click
-            $(".bill-row").click(function () {
-                var billId = $(this).data("bill-id");
+            $(".title-col").click(function () {
+                var billId = $(this).closest("tr").data("bill-id");
                 window.location.href = "/congress/bill/" + billId + "/";
             });
         });
     </script>
 </head>
+
 <body>
     <div class="search-container container">
         <div class="row">
@@ -200,4 +211,5 @@
         <button id="next-btn" class="btn btn-primary btn-sm">Next</button>
     </div>
 </body>
+
 </html>
