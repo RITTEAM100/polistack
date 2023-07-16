@@ -158,21 +158,19 @@ class Config:
         }
 
     def search_tweets(self, search_query):
-        twitter_url = "https://api.twitter.com/2/tweets/search/recent"
-        max_results = 100
         total_tweets = []
 
         # Set the search query and other parameters
         params = {
             "query": search_query,
-            "max_results": max_results,
+            "max_results": MAX_RESULTS,
             "tweet.fields": "lang",
         }
 
         # Set the headers with the authorization token
         headers = {
-            "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAM2qoQEAAAAAK0exOAsf13pIJxm8GitCyqIyzpI%3DxSoIqKS397PVCj1sedUNxe3vTRg9QCPZeu4TQT5YGitfls7IAO",
-            "Cookie": "guest_id=v1%3A168770051299898209",
+            "Authorization": TWITTER_AUTH_TOKEN,
+            "Cookie": TWITTER_COOKIE,
         }
 
         try:
@@ -180,7 +178,7 @@ class Config:
                 len(total_tweets) < 100
             ):  # Continue fetching tweets until at least 100 English tweets are obtained
                 # Send the request to the Twitter API
-                response = requests.get(twitter_url, params=params, headers=headers)
+                response = requests.get(TWITTER_URL, params=params, headers=headers)
 
                 if response.status_code == 200:
                     # Parse the response and extract the tweets
