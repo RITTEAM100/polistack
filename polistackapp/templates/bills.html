@@ -102,26 +102,22 @@
             font-size: 14px;
             color: #777;
         }
-
-        .sentiment-info {
-            margin-bottom: 10px;
+        .sentiment-data {
+            margin-bottom: 20px;
         }
 
-        .sentiment-total-score,
-        .sentiment-average-score {
+        .sentiment-data p {
             font-size: 14px;
-            font-weight: bold;
+            color: #777;
             margin-bottom: 5px;
+        }
+
+        .sentiment-data p:first-child {
+            font-weight: bold;
         }
 
         .tweet-list {
             margin-top: 10px;
-        }
-
-        .total-tweets {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 10px;
         }
 
         .tweet-card {
@@ -129,11 +125,12 @@
             padding: 10px;
             background-color: #f7f7f7;
             border-radius: 5px;
+            display: flex;
+            align-items: flex-start;
         }
 
         .tweet-content {
-            display: flex;
-            align-items: center;
+            flex: 1;
         }
 
         .tweet-text {
@@ -145,10 +142,15 @@
         .tweet-details {
             font-size: 12px;
             color: #777;
+            margin-top: 5px;
+        }
+
+        .tweet-details p {
+            margin: 2px 0;
         }
 
         .tweet-username {
-            margin-bottom: 2px;
+            font-weight: bold;
         }
 
         .tweet-likes,
@@ -156,7 +158,6 @@
         .tweet-sentiment {
             margin-bottom: 2px;
         }
-
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -295,11 +296,11 @@
                     <div class="card-body sentiment-card-body">
                         <h6 class="sentiment-card-title">Sentiment Analysis</h6>
                         {% if sentiment_data %}
-                        <div class="sentiment-info">
-                            <p class="sentiment-total-score">Total Score: {{ sentiment_data.total_score }}</p>
-                            <p class="sentiment-average-score">Average Score: {{ sentiment_data.average_score }}</p>
-                        </div>
                         {% if tweets %}
+                        <div class="sentiment-data">
+                            <p>Total Score: {{ sentiment_data.total_score }}</p>
+                            <p>Average Score: {{ sentiment_data.average_score }}</p>
+                        </div>
                         <div class="tweet-list">
                             <h6 class="total-tweets">Total Tweets Found: {{ tweets|length }}</h6>
                             {% for tweet in tweets|slice:"-5:" %}
@@ -317,19 +318,22 @@
                             </div>
                             {% endfor %}
                         </div>
-                        <p class="sentiment-card-text">Explore sentiment analysis and related tweets for the searched bill.</p>
+                        <p class="sentiment-card-text">Explore sentiment analysis and related tweets for the searched
+                            bill.</p>
                         {% else %}
                         <div class="default-screen">
                             <h6 class="default-screen-title">No Tweets Found</h6>
                             <p class="default-screen-text">Sorry, no tweets were found for the search query "{{ search_query }}".</p>
-                            <p class="default-screen-text">Perform a new search to explore sentiment analysis and related tweets.</p>
+                            <p class="default-screen-text">Perform a new search to explore sentiment analysis and
+                                related tweets.</p>
                             <a href="#search-input" class="default-screen-link">Perform New Search</a>
                         </div>
                         {% endif %}
                         {% else %}
                         <div class="default-screen">
                             <h6 class="default-screen-title">Search for a Bill</h6>
-                            <p class="default-screen-text">Search for a bill to see related tweets and sentiment analysis.</p>
+                            <p class="default-screen-text">Search for a bill to see related tweets and sentiment
+                                analysis.</p>
                             <p class="default-screen-text">Use the search field above to start exploring.</p>
                             <a href="#search-input" class="default-screen-link">Perform Search</a>
                         </div>
@@ -337,7 +341,7 @@
                         {% endif %}
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
     <div class="pagination">
