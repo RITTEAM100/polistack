@@ -9,6 +9,9 @@ class Config:
         self.store_congress_data()
 
     def store_congress_data(self):
+        """
+        Fetches the bills from the API and stores them in the database.
+        """
         # Connect to the MongoDB database
         db_handle, client = get_db_handle(DB_NAME)
 
@@ -48,6 +51,9 @@ class Config:
         return data_from_api
 
     def fetch_bills(self, search_query, page, items_per_page):
+        """
+        Fetches the bills from the database with pagination and text search (if any).
+        """
         # Connect to the MongoDB database
         db_handle, client = get_db_handle(DB_NAME)
 
@@ -92,6 +98,9 @@ class Config:
         }
 
     def fetch_bill_details(self, bill_id):
+        """
+        Fetches the bill details from the database if available, otherwise fetches them from the API and stores them in the database.
+        """
         # Connect to the MongoDB database
         db_handle, client = get_db_handle(DB_NAME)
 
@@ -138,6 +147,9 @@ class Config:
         client.close()
 
     def perform_sentiment_analysis(self, search_query):
+        """
+        Performs sentiment analysis on the tweets and returns the sentiment data.
+        """
         if not search_query:
             return {
                 "search_query": search_query,
@@ -158,6 +170,9 @@ class Config:
         }
 
     def search_tweets(self, search_query):
+        """
+        Searches for tweets based on the search query and returns the tweets.
+        """
         total_tweets = []
 
         # Set the search query and other parameters
@@ -175,7 +190,7 @@ class Config:
 
         try:
             while (
-                len(total_tweets) < 100
+                len(total_tweets) < MAX_RESULTS
             ):  # Continue fetching tweets until at least 100 English tweets are obtained
                 # Send the request to the Twitter API
                 response = requests.get(TWITTER_URL, params=params, headers=headers)
@@ -212,6 +227,9 @@ class Config:
         return total_tweets
 
     def sentiment_analysis(self, tweets):
+        """
+        Performs sentiment analysis on the tweets and returns the sentiment data.
+        """
         total_score = 0
         sentiment_data = {}
         for tweet in tweets:
