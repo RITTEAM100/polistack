@@ -12,6 +12,7 @@ def congress_view(request):
     sentiment_analysis_data = obj.perform_sentiment_analysis(search_query)
     tweets = sentiment_analysis_data["tweet_data"]
     sentiment_data = sentiment_analysis_data["sentiment_data"]
+    tweet_data_length = sentiment_analysis_data["tweet_data_length"]
 
     congress_data = obj.fetch_bills(search_query, page, ITEMS_PER_PAGE)
 
@@ -23,9 +24,11 @@ def congress_view(request):
             "tweets": tweets,
             "search_query": search_query,
             "sentiment_data": sentiment_data,
+            "tweet_data_length": tweet_data_length,
             "bills_per_page": ITEMS_PER_PAGE,
         },
     )
+
 
 
 def bill_detail(request, bill_id):

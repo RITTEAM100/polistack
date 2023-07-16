@@ -2,11 +2,13 @@ from .models import *
 import requests
 from .constants import *
 from .utils import get_db_handle
+import datetime
 
 
 class Config:
     def __init__(self) -> None:
         self.store_congress_data()
+        # self.remove_duplicate_tweets()
 
     def store_congress_data(self):
         """
@@ -49,6 +51,44 @@ class Config:
         client.close()
 
         return data_from_api
+    
+    def remove_duplicate_tweets(self):
+        """
+        Removes duplicate entries in the 'tweet_text' field of the 'tweets' collection.
+        """
+        # Connect to the MongoDB database
+        db_handle, client = get_db_handle(DB_NAME)
+
+        # Access the 'tweets' collection
+        tweet_collection = db_handle[TWEETS_COLLECTION_NAME]
+
+        # Create an aggregation pipeline to find and remove duplicate tweets
+        pipeline = [
+            {"$group": {"_id": "$tweet_text", "duplicates": {"$addToSet": "$_id"}, "count": {"$sum": 1}}},
+            {"$match": {"count": {"$gt": 1}}},
+        ]
+
+        # Execute the aggregation pipeline
+        duplicates = list(tweet_collection.aggregate(pipeline))
+
+        if duplicates:
+            # Extract the duplicate IDs from the aggregation results
+            duplicate_ids = []
+            for group in duplicates:
+                for i, id in enumerate(group["duplicates"]):
+                    if i > 0:
+                        duplicate_ids.append(id)
+
+            # Delete the duplicate tweets
+            delete_result = tweet_collection.delete_many({"_id": {"$in": duplicate_ids}})
+
+            # Print the number of deleted documents
+            print("Number of duplicate tweets deleted:", delete_result.deleted_count)
+        else:
+            print("No duplicate tweets found.")
+
+        # Close the MongoDB connection
+        client.close()
 
     def fetch_bills(self, search_query, page, items_per_page):
         """
@@ -152,39 +192,49 @@ class Config:
         """
         if not search_query:
             return {
-                "search_query": search_query,
                 "tweet_data": [],
                 "sentiment_data": {},
+                "tweet_data_length": 0,
             }
 
-        tweets = self.search_tweets(
-            search_query
-        )  # Search for tweets based on the search query
-        sentiment_data = self.sentiment_analysis(
-            tweets
-        )  # Perform sentiment analysis on the tweets
+        tweets = self.search_tweets(search_query)  # Search for tweets based on the search query
+        sentiment_data = self.sentiment_analysis(tweets)  # Perform sentiment analysis on the tweets
+
+        first_5_tweets = tweets[:5]  # Get the first 5 tweets
+        for tweet in first_5_tweets:
+            timestamp = tweet.get("timestamp")
+            if timestamp:
+                tweet["formatted_timestamp"] = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ").strftime("%b %d, %Y")
+        tweet_data_length = len(tweets)  # Get the length of the tweets
+
         return {
-            "search_query": search_query,
-            "tweet_data": tweets,
+            "tweet_data": first_5_tweets,
             "sentiment_data": sentiment_data,
+            "tweet_data_length": tweet_data_length,
         }
+
 
     def search_tweets(self, search_query):
         # Connect to the MongoDB database
         db_handle, client = get_db_handle(DB_NAME)
         tweet_collection = db_handle[TWEETS_COLLECTION_NAME]
-        # Verify we can connect to the database and tweet collection is available
-        print("Tweet collection count:", tweet_collection.count_documents({}))
-        print("Search query:", search_query)
-        print("Db handle:", db_handle)
+
+        find_query = {"$text": {"$search": search_query, "$caseSensitive": False}}
+        projection = {"score": {"$meta": "textScore"}}
+        sort = [("score", {"$meta": "textScore"})]
 
         # Search for tweets matching the search query
-        tweets = tweet_collection.find(
-            {"tweet_text": {"$regex": search_query, "$options": "i"}},
-        )
+        tweets = tweet_collection.find(find_query, projection).sort(sort)
+
+        # Convert the cursor to a list of tweets
         tweets = list(tweets)
+
+         # Close the MongoDB connection
+        client.close()
+
         # Return the list of tweets
         return tweets
+
 
     def sentiment_analysis(self, tweets):
         total_score = 0
@@ -210,8 +260,8 @@ class Config:
 
         # Create a dictionary with the total score and average score
         sentiment_data = {
-            "total_score": total_score,
-            "average_score": average_score,
+            "total_score": round(total_score, 3),
+            "average_score": round(average_score, 3),
         }
 
         return sentiment_data

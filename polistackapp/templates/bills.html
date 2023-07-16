@@ -302,14 +302,14 @@
                             <p>Average Score: {{ sentiment_data.average_score }}</p>
                         </div>
                         <div class="tweet-list">
-                            <h6 class="total-tweets">Total Tweets Found: {{ tweets|length }}</h6>
-                            {% for tweet in tweets|slice:"-5:" %}
+                            <h6 class="total-tweets">Total Tweets Found: {{ tweet_data_length }}</h6>
+                            {% for tweet in tweets %}
                             <div class="tweet-card">
                                 <div class="tweet-content">
                                     <div class="tweet-text">{{ tweet.tweet_text }}</div>
                                     <div class="tweet-details">
                                         <p class="tweet-username">Username: {{ tweet.username }}</p>
-                                        <p class="tweet-timestamp">Timestamp: {{ tweet.timestamp }}</p>
+                                        <p class="tweet-timestamp">Posted On: {{ tweet.formatted_timestamp }}</p>
                                         <p class="tweet-likes">Likes: {{ tweet.likes }}</p>
                                         <p class="tweet-retweets">Retweets: {{ tweet.retweets }}</p>
                                         <p class="tweet-sentiment">Sentiment: {{ tweet.sentiment }}</p>
