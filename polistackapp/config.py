@@ -61,7 +61,7 @@ class Config:
         if search_query is not None and search_query.strip():
             find_query = {"$text": {"$search": search_query, "$caseSensitive": False}}
             projection = {"score": {"$meta": "textScore"}}
-            sort = [("score", {"$meta": "textScore"})] 
+            sort = [("score", {"$meta": "textScore"})]
         else:
             find_query = {}
             projection = {}
@@ -136,3 +136,108 @@ class Config:
 
         # Close the MongoDB connection
         client.close()
+
+    def perform_sentiment_analysis(self, search_query):
+        if not search_query:
+            return {
+                "search_query": search_query,
+                "tweet_data": [],
+                "sentiment_data": {},
+            }
+
+        tweets = self.search_tweets(
+            search_query
+        )  # Search for tweets based on the search query
+        sentiment_data = self.sentiment_analysis(
+            tweets
+        )  # Perform sentiment analysis on the tweets
+        return {
+            "search_query": search_query,
+            "tweet_data": tweets,
+            "sentiment_data": sentiment_data,
+        }
+
+    def search_tweets(self, search_query):
+        twitter_url = "https://api.twitter.com/2/tweets/search/recent"
+        max_results = 100
+        total_tweets = []
+
+        # Set the search query and other parameters
+        params = {
+            "query": search_query,
+            "max_results": max_results,
+            "tweet.fields": "lang",
+        }
+
+        # Set the headers with the authorization token
+        headers = {
+            "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAM2qoQEAAAAAK0exOAsf13pIJxm8GitCyqIyzpI%3DxSoIqKS397PVCj1sedUNxe3vTRg9QCPZeu4TQT5YGitfls7IAO",
+            "Cookie": "guest_id=v1%3A168770051299898209",
+        }
+
+        try:
+            while (
+                len(total_tweets) < 100
+            ):  # Continue fetching tweets until at least 100 English tweets are obtained
+                # Send the request to the Twitter API
+                response = requests.get(twitter_url, params=params, headers=headers)
+
+                if response.status_code == 200:
+                    # Parse the response and extract the tweets
+                    data = response.json()
+                    print("Twitter API response:", str(data))
+                    tweets = data.get("data", [])
+                    english_tweets = [
+                        tweet for tweet in tweets if tweet.get("lang") == "en"
+                    ]
+                    total_tweets.extend(english_tweets)
+                    meta = data.get("meta", {})
+                    next_token = meta.get("next_token")
+
+                    if next_token:
+                        # Set the next_token parameter for pagination
+                        params["next_token"] = next_token
+                    else:
+                        break  # Break the loop if there is no next_token
+                else:
+                    # Handle error case
+                    print(
+                        "Error: Unable to fetch tweets. Status code:",
+                        response.status_code,
+                    )
+                    break
+
+        except requests.exceptions.RequestException as e:
+            # Handle exception
+            print("Error: Unable to connect to the Twitter API:", str(e))
+
+        return total_tweets
+
+    def sentiment_analysis(self, tweets):
+        total_score = 0
+        sentiment_data = {}
+        for tweet in tweets:
+            # Perform sentiment analysis on each tweet and generate sentiment score and label
+            sentiment_score = 0.8  # Example sentiment score
+            sentiment_label = "Positive"  # Example sentiment label
+
+            # Store the sentiment analysis results for each tweet
+            sentiment_data[tweet["id"]] = {
+                "score": sentiment_score,
+                "label": sentiment_label,
+            }
+
+            # Add the sentiment score to the total score
+            total_score += sentiment_score
+
+        # Calculate the average score
+        if len(tweets) > 0:
+            average_score = total_score / len(tweets)
+        else:
+            average_score = 0
+
+        # Add the total score and average score to the sentiment_data dictionary
+        sentiment_data["total_score"] = total_score
+        sentiment_data["average_score"] = average_score
+
+        return sentiment_data
