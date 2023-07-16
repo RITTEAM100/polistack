@@ -170,78 +170,34 @@ class Config:
         }
 
     def search_tweets(self, search_query):
-        """
-        Searches for tweets based on the search query and returns the tweets.
-        """
-        total_tweets = []
+        # Connect to the MongoDB database
+        db_handle, client = get_db_handle(DB_NAME)
+        tweet_collection = db_handle[TWEETS_COLLECTION_NAME]
+        # Verify we can connect to the database and tweet collection is available
+        print("Tweet collection count:", tweet_collection.count_documents({}))
+        print("Search query:", search_query)
+        print("Db handle:", db_handle)
 
-        # Set the search query and other parameters
-        params = {
-            "query": search_query,
-            "max_results": MAX_RESULTS,
-            "tweet.fields": "lang",
-        }
-
-        # Set the headers with the authorization token
-        headers = {
-            "Authorization": TWITTER_AUTH_TOKEN,
-            "Cookie": TWITTER_COOKIE,
-        }
-
-        try:
-            while (
-                len(total_tweets) < MAX_RESULTS
-            ):  # Continue fetching tweets until at least 100 English tweets are obtained
-                # Send the request to the Twitter API
-                response = requests.get(TWITTER_URL, params=params, headers=headers)
-
-                if response.status_code == 200:
-                    # Parse the response and extract the tweets
-                    data = response.json()
-                    print("Twitter API response:", str(data))
-                    tweets = data.get("data", [])
-                    english_tweets = [
-                        tweet for tweet in tweets if tweet.get("lang") == "en"
-                    ]
-                    total_tweets.extend(english_tweets)
-                    meta = data.get("meta", {})
-                    next_token = meta.get("next_token")
-
-                    if next_token:
-                        # Set the next_token parameter for pagination
-                        params["next_token"] = next_token
-                    else:
-                        break  # Break the loop if there is no next_token
-                else:
-                    # Handle error case
-                    print(
-                        "Error: Unable to fetch tweets. Status code:",
-                        response.status_code,
-                    )
-                    break
-
-        except requests.exceptions.RequestException as e:
-            # Handle exception
-            print("Error: Unable to connect to the Twitter API:", str(e))
-
-        return total_tweets
+        # Search for tweets matching the search query
+        tweets = tweet_collection.find(
+            {"tweet_text": {"$regex": search_query, "$options": "i"}},
+        )
+        tweets = list(tweets)
+        # Return the list of tweets
+        return tweets
 
     def sentiment_analysis(self, tweets):
-        """
-        Performs sentiment analysis on the tweets and returns the sentiment data.
-        """
         total_score = 0
-        sentiment_data = {}
-        for tweet in tweets:
-            # Perform sentiment analysis on each tweet and generate sentiment score and label
-            sentiment_score = 0.8  # Example sentiment score
-            sentiment_label = "Positive"  # Example sentiment label
 
-            # Store the sentiment analysis results for each tweet
-            sentiment_data[tweet["id"]] = {
-                "score": sentiment_score,
-                "label": sentiment_label,
-            }
+        for tweet in tweets:
+            sentiment = tweet.get("sentiment")  # Get the sentiment value from the tweet
+
+            if sentiment == "positive":
+                sentiment_score = 0.8  # Assign a positive sentiment score
+            elif sentiment == "negative":
+                sentiment_score = -0.8  # Assign a negative sentiment score
+            else:
+                sentiment_score = 0  # Assign a neutral sentiment score
 
             # Add the sentiment score to the total score
             total_score += sentiment_score
@@ -252,8 +208,10 @@ class Config:
         else:
             average_score = 0
 
-        # Add the total score and average score to the sentiment_data dictionary
-        sentiment_data["total_score"] = total_score
-        sentiment_data["average_score"] = average_score
+        # Create a dictionary with the total score and average score
+        sentiment_data = {
+            "total_score": total_score,
+            "average_score": average_score,
+        }
 
         return sentiment_data

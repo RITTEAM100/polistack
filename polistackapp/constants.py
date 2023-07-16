@@ -14,12 +14,7 @@ URI = "mongodb+srv://vercel-admin-user:hwSjfWkmwxKWbnOB@polistack.xrwxjxj.mongod
 DB_NAME = "polistack_db"
 BILLS_COLLECTION_NAME = "bill"
 BILL_DETAIL_COLLECTION_NAME = "bill_detail"
+TWEETS_COLLECTION_NAME = "tweets"
 
 BILLS_COUNT = 1000
 ITEMS_PER_PAGE = 10
-
-# Twitter API
-TWITTER_URL = "https://api.twitter.com/2/tweets/search/recent"
-MAX_RESULTS = 100
-TWITTER_AUTH_TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAAM2qoQEAAAAAK0exOAsf13pIJxm8GitCyqIyzpI%3DxSoIqKS397PVCj1sedUNxe3vTRg9QCPZeu4TQT5YGitfls7IAO"
-TWITTER_COOKIE = "guest_id=v1%3A168770051299898209"

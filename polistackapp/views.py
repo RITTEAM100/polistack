@@ -21,6 +21,7 @@ def congress_view(request):
         {
             "congress_data": congress_data,
             "tweets": tweets,
+            "search_query": search_query,
             "sentiment_data": sentiment_data,
             "bills_per_page": ITEMS_PER_PAGE,
         },

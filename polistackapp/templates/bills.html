@@ -103,6 +103,27 @@
             color: #777;
         }
 
+        .sentiment-info {
+            margin-bottom: 10px;
+        }
+
+        .sentiment-total-score,
+        .sentiment-average-score {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .tweet-list {
+            margin-top: 10px;
+        }
+
+        .total-tweets {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
         .tweet-card {
             margin-bottom: 10px;
             padding: 10px;
@@ -110,10 +131,32 @@
             border-radius: 5px;
         }
 
-        .tweet-card .tweet-text {
-            font-size: 13px;
+        .tweet-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .tweet-text {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .tweet-details {
+            font-size: 12px;
             color: #777;
         }
+
+        .tweet-username {
+            margin-bottom: 2px;
+        }
+
+        .tweet-likes,
+        .tweet-retweets,
+        .tweet-sentiment {
+            margin-bottom: 2px;
+        }
+
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -250,39 +293,43 @@
             <div class="col-3">
                 <div class="card sentiment-card">
                     <div class="card-body sentiment-card-body">
-                        {% if sentiment_analysis_data.search_query %}
                         <h6 class="sentiment-card-title">Sentiment Analysis</h6>
-                        {% if sentiment_analysis_data.tweet_data %}
+                        {% if sentiment_data %}
+                        <div class="sentiment-info">
+                            <p class="sentiment-total-score">Total Score: {{ sentiment_data.total_score }}</p>
+                            <p class="sentiment-average-score">Average Score: {{ sentiment_data.average_score }}</p>
+                        </div>
+                        {% if tweets %}
                         <div class="tweet-list">
-                            {% for tweet in sentiment_analysis_data.tweet_data %}
+                            <h6 class="total-tweets">Total Tweets Found: {{ tweets|length }}</h6>
+                            {% for tweet in tweets|slice:"-5:" %}
                             <div class="tweet-card">
-                                <p class="tweet-text">{{ tweet.text }}</p>
-                                {% if sentiment_analysis_data.sentiment_data %}
-                                <p class="tweet-score">Total Score: {{
-                                    sentiment_analysis_data.sentiment_data['total_score'] }}</p>
-                                <p class="tweet-label">Average Score: {{
-                                    sentiment_analysis_data.sentiment_data['average_score'] }}</p>
-                                {% endif %}
+                                <div class="tweet-content">
+                                    <div class="tweet-text">{{ tweet.tweet_text }}</div>
+                                    <div class="tweet-details">
+                                        <p class="tweet-username">Username: {{ tweet.username }}</p>
+                                        <p class="tweet-timestamp">Timestamp: {{ tweet.timestamp }}</p>
+                                        <p class="tweet-likes">Likes: {{ tweet.likes }}</p>
+                                        <p class="tweet-retweets">Retweets: {{ tweet.retweets }}</p>
+                                        <p class="tweet-sentiment">Sentiment: {{ tweet.sentiment }}</p>
+                                    </div>
+                                </div>
                             </div>
                             {% endfor %}
                         </div>
-                        <p class="sentiment-card-text">Explore sentiment analysis and related tweets for the searched
-                            bill.</p>
+                        <p class="sentiment-card-text">Explore sentiment analysis and related tweets for the searched bill.</p>
                         {% else %}
                         <div class="default-screen">
                             <h6 class="default-screen-title">No Tweets Found</h6>
-                            <p class="default-screen-text">Sorry, no tweets were found for the search query "{{
-                                sentiment_analysis_data.search_query }}".</p>
-                            <p class="default-screen-text">Perform a new search to explore sentiment analysis and
-                                related tweets.</p>
+                            <p class="default-screen-text">Sorry, no tweets were found for the search query "{{ search_query }}".</p>
+                            <p class="default-screen-text">Perform a new search to explore sentiment analysis and related tweets.</p>
                             <a href="#search-input" class="default-screen-link">Perform New Search</a>
                         </div>
                         {% endif %}
                         {% else %}
                         <div class="default-screen">
                             <h6 class="default-screen-title">Search for a Bill</h6>
-                            <p class="default-screen-text">Search for a bill to see related tweets and sentiment
-                                analysis.</p>
+                            <p class="default-screen-text">Search for a bill to see related tweets and sentiment analysis.</p>
                             <p class="default-screen-text">Use the search field above to start exploring.</p>
                             <a href="#search-input" class="default-screen-link">Perform Search</a>
                         </div>
@@ -290,7 +337,7 @@
                         {% endif %}
                     </div>
                 </div>
-            </div>
+            </div>            
         </div>
     </div>
     <div class="pagination">
