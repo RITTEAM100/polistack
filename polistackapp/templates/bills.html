@@ -62,6 +62,102 @@
             color: #105454 !important;
             text-decoration: underline;
         }
+
+        .default-screen {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .default-screen-title {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .default-screen-text {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .sentiment-card {
+            width: 100%;
+            margin-top: 35px;
+        }
+
+        .sentiment-card-body {
+            min-height: 500px;
+        }
+
+        .sentiment-card-title {
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .sentiment-card-text {
+            font-size: 14px;
+            color: #777;
+        }
+        .sentiment-data {
+            margin-bottom: 20px;
+        }
+
+        .sentiment-data p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .sentiment-data p:first-child {
+            font-weight: bold;
+        }
+
+        .tweet-list {
+            margin-top: 10px;
+        }
+
+        .tweet-card {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .tweet-content {
+            flex: 1;
+        }
+
+        .tweet-text {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .tweet-details {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .tweet-details p {
+            margin: 2px 0;
+        }
+
+        .tweet-username {
+            font-weight: bold;
+        }
+
+        .tweet-likes,
+        .tweet-retweets,
+        .tweet-sentiment {
+            margin-bottom: 2px;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -196,10 +292,53 @@
                 </table>
             </div>
             <div class="col-3">
-                <div class="card" style="width: 100%; margin-top: 35px;">
-                    <div class="card-body" style="min-height: 500px;">
-                        <h6 class="card-title">Social Sentiment</h6>
-                        <p class="text-muted">Social media sentiment from Twitter and Reddit.</p>
+                <div class="card sentiment-card">
+                    <div class="card-body sentiment-card-body">
+                        <h6 class="sentiment-card-title">Sentiment Analysis</h6>
+                        {% if sentiment_data %}
+                        {% if tweets %}
+                        <div class="sentiment-data">
+                            <p>Total Score: {{ sentiment_data.total_score }}</p>
+                            <p>Average Score: {{ sentiment_data.average_score }}</p>
+                        </div>
+                        <div class="tweet-list">
+                            <h6 class="total-tweets">Total Tweets Found: {{ tweet_data_length }}</h6>
+                            {% for tweet in tweets %}
+                            <div class="tweet-card">
+                                <div class="tweet-content">
+                                    <div class="tweet-text">{{ tweet.tweet_text }}</div>
+                                    <div class="tweet-details">
+                                        <p class="tweet-username">Username: {{ tweet.username }}</p>
+                                        <p class="tweet-timestamp">Posted On: {{ tweet.formatted_timestamp }}</p>
+                                        <p class="tweet-likes">Likes: {{ tweet.likes }}</p>
+                                        <p class="tweet-retweets">Retweets: {{ tweet.retweets }}</p>
+                                        <p class="tweet-sentiment">Sentiment: {{ tweet.sentiment }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <p class="sentiment-card-text">Explore sentiment analysis and related tweets for the searched
+                            bill.</p>
+                        {% else %}
+                        <div class="default-screen">
+                            <h6 class="default-screen-title">No Tweets Found</h6>
+                            <p class="default-screen-text">Sorry, no tweets were found for the search query "{{ search_query }}".</p>
+                            <p class="default-screen-text">Perform a new search to explore sentiment analysis and
+                                related tweets.</p>
+                            <a href="#search-input" class="default-screen-link">Perform New Search</a>
+                        </div>
+                        {% endif %}
+                        {% else %}
+                        <div class="default-screen">
+                            <h6 class="default-screen-title">Search for a Bill</h6>
+                            <p class="default-screen-text">Search for a bill to see related tweets and sentiment
+                                analysis.</p>
+                            <p class="default-screen-text">Use the search field above to start exploring.</p>
+                            <a href="#search-input" class="default-screen-link">Perform Search</a>
+                        </div>
+                        <p class="sentiment-card-text">Get insights into public sentiment and opinions on bills.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

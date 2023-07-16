@@ -25,7 +25,6 @@ def get_db_handle(db_name, host="localhost", port=27017):
     # Send a ping to confirm a successful connection
     try:
         client.admin.command("ping")
-        print("Pinged your deployment. You successfully connected to MongoDB!")
     except Exception as e:
         print(e)
 
