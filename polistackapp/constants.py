@@ -14,6 +14,7 @@ URI = "mongodb+srv://vercel-admin-user:hwSjfWkmwxKWbnOB@polistack.xrwxjxj.mongod
 DB_NAME = "polistack_db"
 BILLS_COLLECTION_NAME = "bill"
 BILL_DETAIL_COLLECTION_NAME = "bill_detail"
+TWEETS_COLLECTION_NAME = "tweets"
 
 BILLS_COUNT = 1000
 ITEMS_PER_PAGE = 10
