@@ -35,7 +35,8 @@
         }
 
         button:disabled {
-            background-color: #ccc;
+            background-color: #ccc !important;
+            border: 1px solid #1b1b1b !important;
             cursor: not-allowed;
         }
 
@@ -85,11 +86,11 @@
 
         .sentiment-card {
             width: 100%;
-            margin-top: 35px;
+            margin-top: 15px;
         }
 
         .sentiment-card-body {
-            min-height: 500px;
+            min-height: 10px;
         }
 
         .sentiment-card-title {
@@ -180,6 +181,9 @@
             var totalPages = Math.ceil(totalBills / billsPerPage);
             var searchQuery = "{{ request.GET.q|default:'' }}";
 
+            // focus on search input on page load
+            $("#search-input").focus();
+
             // Disable previous button if on the first page or search result is empty
             if (currentPage === 1 || totalBills === "0") {
                 $("#prev-btn").prop("disabled", true);
@@ -207,6 +211,20 @@
                         url += "&q=" + searchQuery;
                     }
                     window.location.href = url;
+                }
+            });
+            function triggerSearchQuery() {
+                var query = $("#search-input").val();
+                if (query) {
+                    var url = "/congress/bills/?q=" + query;
+                    window.location.href = url;
+                }
+            }
+            // Add an event listener for the "enter" key press event on the search input
+            $("#search-input").keypress(function(event) {
+                if (event.which === 13) { // 13 is the key code for "Enter" key
+                    // Trigger the search query function here
+                    triggerSearchQuery();
                 }
             });
 
@@ -271,10 +289,9 @@
             data.addColumn('string', 'Category');
             data.addColumn('number', 'Bills');
             data.addRows([
-                ['May', 8],
-              ['June', 10],
-              ['July', 20],
-              ['August', 30],
+                ['Yes', 46],
+              ['No', 42],
+              ['Unsure', 12],
               // Add more data as needed
             ]);
 
@@ -282,6 +299,42 @@
             var options = {
               //title: 'My Chart',
               // Add other chart options here
+                colors: ['#e73b00'], // Set custom colors here
+                title: 'Should the U.S. Increase Budget on Defense?',
+                legend: {position: 'none'}
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.BarChart(document.getElementById('poll_chart'));
+            chart.draw(data, options);
+          }
+    </script>
+    <script type="text/javascript">
+          // Load the Google Charts API
+          google.charts.load('current', { 'packages': ['corechart'] });
+
+          // Set a callback to run when the Google Charts API is loaded.
+          google.charts.setOnLoadCallback(drawChart);
+
+          // Function to draw the chart
+          function drawChart() {
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Category');
+            data.addColumn('number', 'Bills');
+            data.addRows([
+                ['March', 2],
+                ['April', 14],
+                ['May', 8],
+              ['June', 10],
+              ['July', 20],
+              ['August', 2],
+              // Add more data as needed
+            ]);
+
+            // Set chart options (if required)
+            var options = {
+              title: 'Bills Updated Over Time',
                 colors: ['#2c6b6e', '#2c6b6e', '#e73b00'], // Set custom colors here
 
             };
@@ -305,8 +358,8 @@
         data.addColumn('string', 'Category');
         data.addColumn('number', 'Value');
         data.addRows([
-          ['Positive', 10],
-          ['Negative', 20]
+          ['Positive', 34],
+          ['Negative', 66]
         ]);
 
         // Set chart options for a flat pie chart
@@ -323,7 +376,7 @@
           pieSliceText: 'value',
           pieHole: 0.4, // Adjust the size of the hole in the center (0 to 1)
           is3D: false,
-            colors: ['#2c6b6e', '#e73b00'], // Set custom colors here
+            colors: ['#e73b00', '#ffbaa1'], // Set custom colors here
         };
 
         // Instantiate and draw the flat pie chart.
@@ -359,14 +412,28 @@
                     <a href="/congress/bills/?q=voting">#voting</a>
                     <a href="/congress/bills/?q=housing">#housing</a>
                     <a href="/congress/bills/?q=environment">#environment</a>
-                    <a href="/congress/bills/?q=food">#food</a>
+                    <a href="/congress/bills/?q=food security">#food security</a>
                 </div>
             </div>
         </div>
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-9">
+        <div class="col-3">
+            <div id="poll_chart" style="width: 100%; height: 250px;"></div>
+            <div class="card sentiment-card">
+                <div class="card-body sentiment-card-body">
+                <h6 class="sentiment-card-title">The Daily Argument</h6>
+                <div class="default-screen">
+                        <h6 class="default-screen-title">Should the U.S. Increase Budget on Defense?</h6>
+                        <p class="default-screen-text">Proponents of increasing the budget on defense argue that it can enhance national security, strengthen the military's capabilities, and deter potential adversaries.</p>
+                        <p class="default-screen-text">On the other hand, opponents of increasing the defense budget may argue that...</p>
+                    <a class="btn btn-primary btn-sm">Join the Argument</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="col-6">
                 <div id="chartContainer" style="width: 100%; height: 250px;"></div>
                 <table class="table table-striped table-hover">
                     <thead>
@@ -390,6 +457,11 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <div class="pagination">
+                    <button id="home-btn" class="btn btn-primary btn-sm">Home</button>
+                    <button id="prev-btn" class="btn btn-secondary btn-sm">Previous</button>
+                    <button id="next-btn" class="btn btn-primary btn-sm">Next</button>
+                </div>
             </div>
             <div class="col-3">
                 <div id="pieChartContainer" style="width: 100%; height: 250px;"></div>
@@ -442,13 +514,13 @@
                         {% endif %}
                     </div>
                 </div>
+                <div class="card sentiment-card">
+                    <div class="card-body sentiment-card-body">
+                        <a href = "#" class="btn btn-primary">Start a Campaign</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="pagination">
-        <button id="home-btn" class="btn btn-primary btn-sm">Home</button>
-        <button id="prev-btn" class="btn btn-secondary btn-sm">Previous</button>
-        <button id="next-btn" class="btn btn-primary btn-sm">Next</button>
     </div>
 </body>
 
