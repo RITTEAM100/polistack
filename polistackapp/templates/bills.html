@@ -35,7 +35,8 @@
         }
 
         button:disabled {
-            background-color: #ccc;
+            background-color: #ccc !important;
+            border: 1px solid #1b1b1b !important;
             cursor: not-allowed;
         }
 
@@ -339,8 +340,8 @@
         data.addColumn('string', 'Category');
         data.addColumn('number', 'Value');
         data.addRows([
-          ['Positive', 10],
-          ['Negative', 20]
+          ['Positive', 34],
+          ['Negative', 66]
         ]);
 
         // Set chart options for a flat pie chart
@@ -357,7 +358,7 @@
           pieSliceText: 'value',
           pieHole: 0.4, // Adjust the size of the hole in the center (0 to 1)
           is3D: false,
-            colors: ['#2c6b6e', '#e73b00'], // Set custom colors here
+            colors: ['#e73b00', '#ffbaa1'], // Set custom colors here
         };
 
         // Instantiate and draw the flat pie chart.
