@@ -158,8 +158,16 @@
         .tweet-sentiment {
             margin-bottom: 2px;
         }
+        .tags {
+            text-align: center;
+        }
+        .tags a {
+            color: orangered;
+            margin: 0px 10px;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         $(document).ready(function () {
             var currentPage = parseInt("{{ request.GET.page|default:'1' }}");
@@ -249,6 +257,84 @@
             });
         });
     </script>
+    <script type="text/javascript">
+          // Load the Google Charts API
+          google.charts.load('current', { 'packages': ['corechart'] });
+
+          // Set a callback to run when the Google Charts API is loaded.
+          google.charts.setOnLoadCallback(drawChart);
+
+          // Function to draw the chart
+          function drawChart() {
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Category');
+            data.addColumn('number', 'Bills');
+            data.addRows([
+                ['May', 8],
+              ['June', 10],
+              ['July', 20],
+              ['August', 30],
+              // Add more data as needed
+            ]);
+
+            // Set chart options (if required)
+            var options = {
+              //title: 'My Chart',
+              // Add other chart options here
+                colors: ['#2c6b6e', '#2c6b6e', '#e73b00'], // Set custom colors here
+
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
+            chart.draw(data, options);
+          }
+    </script>
+    <script type="text/javascript">
+      // Load the Google Charts API
+      google.charts.load('current', { 'packages': ['corechart'] });
+
+      // Set a callback to run when the Google Charts API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Function to draw the chart
+      function drawChart() {
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Category');
+        data.addColumn('number', 'Value');
+        data.addRows([
+          ['Positive', 10],
+          ['Negative', 20]
+        ]);
+
+        // Set chart options for a flat pie chart
+        var flatPieOptions = {
+          title: 'Flat Pie Chart',
+          pieSliceText: 'value',
+          pieHole: 0.4, // Set to 0 to create a regular pie chart, or a value between 0 and 1 for a donut chart
+          is3D: false,
+        };
+
+        // Set chart options for a donut chart
+        var donutOptions = {
+          title: 'Sentiment',
+          pieSliceText: 'value',
+          pieHole: 0.4, // Adjust the size of the hole in the center (0 to 1)
+          is3D: false,
+            colors: ['#2c6b6e', '#e73b00'], // Set custom colors here
+        };
+
+        // Instantiate and draw the flat pie chart.
+        var flatPieChart = new google.visualization.PieChart(document.getElementById('pieChartContainer'));
+        flatPieChart.draw(data, flatPieOptions);
+
+        // Instantiate and draw the donut chart.
+        var donutChart = new google.visualization.PieChart(document.getElementById('pieChartContainer'));
+        donutChart.draw(data, donutOptions);
+      }
+    </script>
 </head>
 
 <body>
@@ -263,11 +349,25 @@
             <div class="col-2 text-start">
                 <button id="search-btn" class="btn btn-primary">Search</button>
             </div>
+            <div class="row">
+                <div class="col-12 tags">
+                    <a href="/congress/bills/?q=defense">#defense</a>
+                    <a href="/congress/bills/?q=infrastructure">#infrastructure</a>
+                    <a href="/congress/bills/?q=energy">#energy</a>
+                    <a href="/congress/bills/?q=immigration">#immigration</a>
+                    <a href="/congress/bills/?q=health care">#healthcare</a>
+                    <a href="/congress/bills/?q=voting">#voting</a>
+                    <a href="/congress/bills/?q=housing">#housing</a>
+                    <a href="/congress/bills/?q=environment">#environment</a>
+                    <a href="/congress/bills/?q=food">#food</a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-9">
+                <div id="chartContainer" style="width: 100%; height: 250px;"></div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -292,6 +392,7 @@
                 </table>
             </div>
             <div class="col-3">
+                <div id="pieChartContainer" style="width: 100%; height: 250px;"></div>
                 <div class="card sentiment-card">
                     <div class="card-body sentiment-card-body">
                         <h6 class="sentiment-card-title">Sentiment Analysis</h6>
