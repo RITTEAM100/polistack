@@ -89,12 +89,15 @@ Make sure to execute these commands in the project directory to set up and run y
 ## Screenshots
 
 **Home Screen**
+
 ![Home Screen](screenshots/home_screen_bills.png)
 
 **Search Results Screen**
+
 ![Page 3](screenshots/search_result.png)
 
 **Bill Detail**
+
 ![Bill Detail](screenshots/bill_detail.png)
 
 ## Demo links
