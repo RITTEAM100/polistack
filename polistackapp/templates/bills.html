@@ -210,6 +210,20 @@
                     window.location.href = url;
                 }
             });
+            function triggerSearchQuery() {
+                var query = $("#search-input").val();
+                if (query) {
+                    var url = "/congress/bills/?q=" + query;
+                    window.location.href = url;
+                }
+            }
+            // Add an event listener for the "enter" key press event on the search input
+            $("#search-input").keypress(function(event) {
+                if (event.which === 13) { // 13 is the key code for "Enter" key
+                    // Trigger the search query function here
+                    triggerSearchQuery();
+                }
+            });
 
             // Handle next button click
             $("#next-btn").click(function () {
@@ -395,7 +409,7 @@
                     <a href="/congress/bills/?q=voting">#voting</a>
                     <a href="/congress/bills/?q=housing">#housing</a>
                     <a href="/congress/bills/?q=environment">#environment</a>
-                    <a href="/congress/bills/?q=food">#food</a>
+                    <a href="/congress/bills/?q=food security">#food security</a>
                 </div>
             </div>
         </div>
