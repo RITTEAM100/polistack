@@ -181,6 +181,9 @@
             var totalPages = Math.ceil(totalBills / billsPerPage);
             var searchQuery = "{{ request.GET.q|default:'' }}";
 
+            // focus on search input on page load
+            $("#search-input").focus();
+
             // Disable previous button if on the first page or search result is empty
             if (currentPage === 1 || totalBills === "0") {
                 $("#prev-btn").prop("disabled", true);
