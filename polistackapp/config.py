@@ -7,7 +7,8 @@ import datetime
 
 class Config:
     def __init__(self) -> None:
-        self.store_congress_data()
+        pass
+        # self.store_congress_data()
         # self.remove_duplicate_tweets()
 
     def store_congress_data(self):
