@@ -84,6 +84,7 @@ Make sure to execute these commands in the project directory to set up and run y
 * https://api.congress.gov/#/bill/bill_list_all
 * https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
 * https://pypi.org/project/django-bootstrap5/
+* https://www.mongodb.com/developer/products/atlas/atlas-search-relevancy-explained/
 
 
 ## Screenshots
