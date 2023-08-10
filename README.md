@@ -102,5 +102,10 @@ Make sure to execute these commands in the project directory to set up and run y
 
 ## Demo links
 
-Checkpoint 2: https://youtu.be/sXovaXZjB-s 
-Final Presenation: https://youtu.be/DGt3vqvHb7k
+* Checkpoint 2: https://youtu.be/sXovaXZjB-s 
+* Final Presenation: https://youtu.be/DGt3vqvHb7k
+
+## Slides
+
+* https://docs.google.com/presentation/d/1WRx7KTcHE8djlydXovWh1GaXDHyi7Gw4z0tSykGmitw
+* [Final Presentation](polistack/presentation slides/#Polistack - Final Presentation.pdf)
