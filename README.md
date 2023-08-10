@@ -108,4 +108,4 @@ Make sure to execute these commands in the project directory to set up and run y
 ## Slides
 
 * https://docs.google.com/presentation/d/1WRx7KTcHE8djlydXovWh1GaXDHyi7Gw4z0tSykGmitw
-* [Final Presentation](polistack/presentation slides/#Polistack - Final Presentation.pdf)
+* [Final Presentation](polistack/presentation%20slides/Polistack%20-%20Final%20Presentation.pdf)
